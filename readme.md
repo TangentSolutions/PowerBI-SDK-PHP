@@ -1,6 +1,8 @@
 PowerBI PHP SDK
 ===============
 
+[![Build Status](https://travis-ci.org/TangentSolutions/PowerBI-SDK-PHP.svg?branch=master)](https://travis-ci.org/TangentSolutions/PowerBI-SDK-PHP)
+
 A SDK which makes it easier to work with the PowerBI REST API.
 
 ## Installation
