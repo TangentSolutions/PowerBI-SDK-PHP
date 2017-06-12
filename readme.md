@@ -2,6 +2,8 @@ PowerBI PHP SDK
 ===============
 
 [![Build Status](https://travis-ci.org/TangentSolutions/PowerBI-SDK-PHP.svg?branch=master)](https://travis-ci.org/TangentSolutions/PowerBI-SDK-PHP)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/8d81e2066715457d97957054c8b1bb57)](https://www.codacy.com/app/TangentSolutions/PowerBI-SDK-PHP?utm_source=github.com&utm_medium=referral&utm_content=TangentSolutions/PowerBI-SDK-PHP&utm_campaign=Badge_Coverage)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8d81e2066715457d97957054c8b1bb57)](https://www.codacy.com/app/TangentSolutions/PowerBI-SDK-PHP?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TangentSolutions/PowerBI-SDK-PHP&amp;utm_campaign=Badge_Grade)
 
 A SDK which makes it easier to work with the PowerBI REST API.
 
