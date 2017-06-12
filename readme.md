@@ -47,6 +47,12 @@ Once you have the access token you can create the client like this:
 $client = new \Tngnt\PBI\Client($token);
 ```
 
+## Documentation
+
+[Wiki](https://github.com/TangentSolutions/PowerBI-SDK-PHP/wiki)
+
+[PowerBI API Reference](https://msdn.microsoft.com/en-us/library/mt147898.aspx)
+
 ## Issues
 
 View or log issues on the [Issues](https://github.com/microsoftgraph/msgraph-sdk-php/issues) tab on the repo.

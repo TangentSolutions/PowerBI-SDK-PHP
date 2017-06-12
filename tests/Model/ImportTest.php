@@ -30,6 +30,6 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(\InvalidArgumentException::class);
 
-        $import = new Import('file-path', 'invalid-type');
+        new Import('file-path', 'invalid-type');
     }
 }
