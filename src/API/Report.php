@@ -12,7 +12,8 @@ use Tngnt\PBI\Client;
 class Report
 {
     const REPORT_URL = "https://api.powerbi.com/v1.0/myorg/reports";
-    const GROUP_REPORT_URL = "https://api.powerbi.com/beta/myorg/groups/%s/reports";
+    const GROUP_REPORT_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports";
+    const GROUP_REPORT_EMBED_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports/%s/GenerateToken";
 
     /**
      * The SDK client
@@ -43,6 +44,28 @@ class Report
         $url = $this->getUrl($groupId);
 
         $response = $this->client->request(Client::METHOD_GET, $url);
+
+        return $this->client->generateResponse($response);
+    }
+
+    /**
+     * Retrieves the embed token for embedding a report
+     *
+     * @param string      $reportId    The report ID of the report
+     * @param string      $groupId     The group ID of the report
+     * @param null|string $accessLevel The access level used for the report
+     *
+     * @return \Tngnt\PBI\Response
+     */
+    public function getReportEmbedToken($reportId, $groupId, $accessLevel = 'view')
+    {
+        $url = sprintf(self::GROUP_REPORT_EMBED_URL, $groupId, $reportId);
+
+        $body = [
+            'accessLevel' => $accessLevel,
+        ];
+
+        $response = $this->client->request(Client::METHOD_POST, $url, $body);
 
         return $this->client->generateResponse($response);
     }
