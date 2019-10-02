@@ -12,7 +12,7 @@ use Tngnt\PBI\Client;
 class Report
 {
     const REPORT_URL = "https://api.powerbi.com/v1.0/myorg/reports";
-    const GROUP_REPORT_URL = "https://api.powerbi.com/beta/myorg/groups/%s/reports";
+    const GROUP_REPORT_URL = "https://api.powerbi.com/myorg/groups/%s/reports";
 
     /**
      * The SDK client
