@@ -13,6 +13,8 @@ class Report
 {
     const REPORT_URL = "https://api.powerbi.com/v1.0/myorg/reports";
     const GROUP_REPORT_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports";
+    const PAGE_URL = "https://api.powerbi.com/v1.0/myorg/reports/%s/pages";
+    const GROUP_PAGE_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports/%s/pages";
 
     /**
      * The SDK client
@@ -40,7 +42,22 @@ class Report
      */
     public function getReports($groupId = null)
     {
-        $url = $this->getUrl($groupId);
+        $url = $this->getUrlReports($groupId);
+
+        $response = $this->client->request(Client::METHOD_GET, $url);
+
+        return $this->client->generateResponse($response);
+    }
+        /**
+     * Retrieves a list of reports on PowerBI
+     *
+     * @param null|string $groupId An optional group ID
+     *
+     * @return \Tngnt\PBI\Response
+     */
+    public function getPages($reportId, $groupId = null)
+    {
+        $url = $this->getUrlPages($reportId,$groupId);
 
         $response = $this->client->request(Client::METHOD_GET, $url);
 
@@ -54,12 +71,28 @@ class Report
      *
      * @return string
      */
-    private function getUrl($groupId)
+    private function getUrlReports($groupId)
     {
         if ($groupId) {
             return sprintf(self::GROUP_REPORT_URL, $groupId);
         }
 
         return self::REPORT_URL;
+    }
+     /**
+     * Helper function to format the request URL
+     *
+     * @param string $reportId id from report
+     *
+     * @param null|string $groupId An optional group ID
+     *
+     * @return string
+     */
+    private function getUrlPages($reportId, $groupId)
+    {
+        if ($groupId) {
+            return sprintf(self::GROUP_PAGE_URL, $groupId,$reportId);
+        }
+        return return sprintf(self::PAGE_URL,$reportId);
     }
 }
