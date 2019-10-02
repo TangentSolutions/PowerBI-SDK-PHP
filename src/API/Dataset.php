@@ -15,6 +15,9 @@ class Dataset
 {
     const DATASET_URL = 'https://api.powerbi.com/v1.0/myorg/datasets';
     const GROUP_DATASET_URL = 'https://api.powerbi.com/v1.0/myorg/groups/%s/datasets';
+    const REFRESH_DATASET_URL = 'https://api.powerbi.com/v1.0/myorg/datasets/%s/refreshes';
+    const GROUP_REFRESH_DATASET_URL = 'https://api.powerbi.com/v1.0/myorg/groups/%s/datasets/%s/refreshes';
+    
 
     /**
      * The SDK client
@@ -46,6 +49,27 @@ class Dataset
 
         $response = $this->client->request(Client::METHOD_GET, $url);
 
+        return $this->client->generateResponse($response);
+    }
+    
+      /**
+     * Refresh the dataset from the PowerBI API
+     *
+     * @param string $datasetId An dataset ID
+     *
+     * @param null|string $groupId An optional group ID
+     *
+     * @param null|bool $notify set if user recibe notify mail
+     *
+     * @return Response
+     */
+    public function getDatasets($datasetId, $groupId = null,$notify = false)
+    {
+        $url = $this->getRefreshUrl($groupId,$datasetId);
+        if($notify)
+            $response = $this->client->request(Client::METHOD_POST, $url,["notifyOption" => "MailOnFailure"]);
+        else
+            $response = $this->client->request(Client::METHOD_POST, $url);
         return $this->client->generateResponse($response);
     }
 
@@ -80,5 +104,22 @@ class Dataset
         }
 
         return self::DATASET_URL;
+    }
+    
+     /**
+     * Helper function to format the request URL
+     *
+     * @param string $datasetId id from dataset
+     *
+     * @param null|string $groupId An optional group ID
+     *
+     * @return string
+     */
+    private function getRefreshUrl($datasetId, $groupId)
+    {
+        if ($groupId) {
+            return sprintf(self::GROUP_REFRESH_DATASET_URL, $datasetId,$reportId);
+        }
+        return return sprintf(self::REFRESH_DATASET_URL,$datasetId);
     }
 }
