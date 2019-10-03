@@ -58,7 +58,7 @@ class Dataset
      *
      * @return Response
      */
-    public function getDatasets($datasetId, $groupId = null, $notify = false)
+    public function refreshDataset($datasetId, $groupId = null, $notify = false)
     {
         $url = $this->getRefreshUrl($groupId, $datasetId);
         if ($notify) {
