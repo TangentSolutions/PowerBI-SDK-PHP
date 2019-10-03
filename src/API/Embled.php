@@ -41,12 +41,19 @@ class Embled
     public function createEmbledToken(array $reports = [], array $datasets = [], array $targetWorkspaces = [], array $identities = [])
     {
         $url = $this->getEmbledTokenUrl();
-        $data = [
-            'datasets' => $datasets,
-            'reports' => $reports,
-            'targetWorkspaces' => $targetWorkspaces,
-            'identities' => $identities,
-            ];
+        $data = [];
+        if (!empty($datasets)) {
+            $data['datasets'] = $datasets;
+        }
+        if (!empty($reports)) {
+            $data['reports'] = $reports;
+        }
+        if (!empty($targetWorkspaces)) {
+            $data['targetWorkspaces'] = $targetWorkspaces;
+        }
+        if (!empty($identities)) {
+            $data['identities'] = $identities;
+        }
 
         $response = $this->client->request(Client::METHOD_POST, $url, $data);
 
