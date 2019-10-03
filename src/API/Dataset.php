@@ -111,10 +111,10 @@ class Dataset
      *
      * @return string
      */
-    private function getRefreshUrl($datasetId, $groupId)
+    private function getRefreshUrl($groupId, $datasetId)
     {
         if ($groupId) {
-            return sprintf(self::GROUP_REFRESH_DATASET_URL, $datasetId, $reportId);
+            return sprintf(self::GROUP_REFRESH_DATASET_URL, $groupId, $datasetId);
         }
 
         return sprintf(self::REFRESH_DATASET_URL, $datasetId);
