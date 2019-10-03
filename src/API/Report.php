@@ -5,19 +5,17 @@ namespace Tngnt\PBI\API;
 use Tngnt\PBI\Client;
 
 /**
- * Class Report
- *
- * @package Tngnt\PBI\API
+ * Class Report.
  */
 class Report
 {
-    const REPORT_URL = "https://api.powerbi.com/v1.0/myorg/reports";
-    const GROUP_REPORT_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports";
-    const PAGE_URL = "https://api.powerbi.com/v1.0/myorg/reports/%s/pages";
-    const GROUP_PAGE_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports/%s/pages";
+    const REPORT_URL = 'https://api.powerbi.com/v1.0/myorg/reports';
+    const GROUP_REPORT_URL = 'https://api.powerbi.com/v1.0/myorg/groups/%s/reports';
+    const PAGE_URL = 'https://api.powerbi.com/v1.0/myorg/reports/%s/pages';
+    const GROUP_PAGE_URL = 'https://api.powerbi.com/v1.0/myorg/groups/%s/reports/%s/pages';
 
     /**
-     * The SDK client
+     * The SDK client.
      *
      * @var Client
      */
@@ -34,9 +32,9 @@ class Report
     }
 
     /**
-     * Retrieves a list of reports on PowerBI
+     * Retrieves a list of reports on PowerBI.
      *
-     * @param null|string $groupId An optional group ID
+     * @param string|null $groupId An optional group ID
      *
      * @return \Tngnt\PBI\Response
      */
@@ -48,16 +46,17 @@ class Report
 
         return $this->client->generateResponse($response);
     }
-        /**
-     * Retrieves a list of reports on PowerBI
+
+    /**
+     * Retrieves a list of reports on PowerBI.
      *
-     * @param null|string $groupId An optional group ID
+     * @param string|null $groupId An optional group ID
      *
      * @return \Tngnt\PBI\Response
      */
     public function getPages($reportId, $groupId = null)
     {
-        $url = $this->getUrlPages($reportId,$groupId);
+        $url = $this->getUrlPages($reportId, $groupId);
 
         $response = $this->client->request(Client::METHOD_GET, $url);
 
@@ -65,9 +64,9 @@ class Report
     }
 
     /**
-     * Helper function to format the request URL
+     * Helper function to format the request URL.
      *
-     * @param null|string $groupId An optional group ID
+     * @param string|null $groupId An optional group ID
      *
      * @return string
      */
@@ -79,20 +78,21 @@ class Report
 
         return self::REPORT_URL;
     }
-     /**
-     * Helper function to format the request URL
+
+    /**
+     * Helper function to format the request URL.
      *
-     * @param string $reportId id from report
-     *
-     * @param null|string $groupId An optional group ID
+     * @param string      $reportId id from report
+     * @param string|null $groupId  An optional group ID
      *
      * @return string
      */
     private function getUrlPages($reportId, $groupId)
     {
         if ($groupId) {
-            return sprintf(self::GROUP_PAGE_URL, $groupId,$reportId);
+            return sprintf(self::GROUP_PAGE_URL, $groupId, $reportId);
         }
-        return return sprintf(self::PAGE_URL,$reportId);
+
+        return sprintf(self::PAGE_URL, $reportId);
     }
 }
