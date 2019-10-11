@@ -3,6 +3,7 @@
 namespace Tngnt\PBI\API;
 
 use Tngnt\PBI\Client;
+use Ixudra\Curl\Facades\Curl;
 
 /**
  * Class Report.
@@ -38,26 +39,20 @@ class Embled
      *
      * @return \Tngnt\PBI\Response
      */
-    public function createEmbledToken(array $reports = [], array $datasets = [], array $targetWorkspaces = [], array $identities = [])
+    public function createEmbledToken(array $data)
     {
         $url = $this->getEmbledTokenUrl();
-        $data = [];
-        if (!empty($datasets)) {
-            $data['datasets'] = $datasets;
-        }
-        if (!empty($reports)) {
-            $data['reports'] = $reports;
-        }
-        if (!empty($targetWorkspaces)) {
-            $data['targetWorkspaces'] = $targetWorkspaces;
-        }
-        if (!empty($identities)) {
-            $data['identities'] = $identities;
-        }
+        $headers = [
+                'Accept: application/json',
+                 sprintf('Authorization: Bearer %s', session('access_token')),
+            ];
+        $response = Curl::to($url)
+            ->withData($data)
+            ->withHeaders($headers)
+            ->asJson()
+            ->post();
 
-        $response = $this->client->request(Client::METHOD_POST, $url, $data);
-
-        return $this->client->generateResponse($response);
+        return $response;
     }
 
     /**
