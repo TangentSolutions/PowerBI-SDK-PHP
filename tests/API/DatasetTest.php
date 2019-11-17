@@ -35,6 +35,48 @@ class DatasetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, 'final-response');
     }
 
+    public function testRefreshDataset()
+    {
+        $url = sprintf(Dataset::REFRESH_DATASET_URL, '123');
+        $responseMock = \Mockery::mock(Response::class);
+        $clientMock = \Mockery::mock(Client::class);
+        $clientMock->shouldReceive('request')->once()->withArgs(['POST', $url, ['notifyOption' => 'MailOnFailure']])->andReturn($responseMock);
+        $clientMock->shouldReceive('generateResponse')->once()->with($responseMock)->andReturn('final-response');
+
+        $dataset = new Dataset($clientMock);
+        $response = $dataset->refreshDataset(123);
+
+        $this->assertEquals($response, 'final-response');
+    }
+
+    public function testRefreshDatasetWithoutNotification()
+    {
+        $url = sprintf(Dataset::REFRESH_DATASET_URL, '123');
+        $responseMock = \Mockery::mock(Response::class);
+        $clientMock = \Mockery::mock(Client::class);
+        $clientMock->shouldReceive('request')->once()->withArgs(['POST', $url])->andReturn($responseMock);
+        $clientMock->shouldReceive('generateResponse')->once()->with($responseMock)->andReturn('final-response');
+
+        $dataset = new Dataset($clientMock);
+        $response = $dataset->refreshDataset(123, null, false);
+
+        $this->assertEquals($response, 'final-response');
+    }
+
+    public function testRefreshDatasetWithGroup()
+    {
+        $url = sprintf(Dataset::GROUP_REFRESH_DATASET_URL, '456', '123');
+        $responseMock = \Mockery::mock(Response::class);
+        $clientMock = \Mockery::mock(Client::class);
+        $clientMock->shouldReceive('request')->once()->withArgs(['POST', $url, ['notifyOption' => 'MailOnFailure']])->andReturn($responseMock);
+        $clientMock->shouldReceive('generateResponse')->once()->with($responseMock)->andReturn('final-response');
+
+        $dataset = new Dataset($clientMock);
+        $response = $dataset->refreshDataset(123, 456);
+
+        $this->assertEquals($response, 'final-response');
+    }
+
     public function testCreateDataset()
     {
         $datasetModel = new \Tngnt\PBI\Model\Dataset('testing');

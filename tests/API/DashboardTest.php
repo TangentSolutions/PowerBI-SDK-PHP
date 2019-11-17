@@ -35,6 +35,20 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, 'final-response');
     }
 
+    public function testGetDashboardEmbedToken()
+    {
+        $url = sprintf(Dashboard::GROUP_DASHBOARD_EMBED_URL, '456', '123');
+        $responseMock = \Mockery::mock(Response::class);
+        $clientMock = \Mockery::mock(Client::class);
+        $clientMock->shouldReceive('request')->once()->withArgs(['POST', $url, ['accessLevel' => 'view']])->andReturn($responseMock);
+        $clientMock->shouldReceive('generateResponse')->once()->with($responseMock)->andReturn('final-response');
+
+        $dashboard = new Dashboard($clientMock);
+        $response = $dashboard->getDashboardEmbedToken(123, 456);
+
+        $this->assertEquals($response, 'final-response');
+    }
+
     public function testGetTiles()
     {
         $url = sprintf(Dashboard::TILES_URL, 'dashboard');
