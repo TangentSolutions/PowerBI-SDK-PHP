@@ -15,6 +15,7 @@ class Dashboard
     const GROUP_DASHBOARD_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/dashboards";
     const TILES_URL = "https://api.powerbi.com/v1.0/myorg/dashboards/%s/tiles";
     const GROUP_TILES_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/dashboards/%s/tiles";
+    const GROUP_DASHBOARD_EMBED_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/dashboards/%s/GenerateToken";
 
     /**
      * The SDK client
@@ -45,6 +46,28 @@ class Dashboard
         $url = $this->getUrl($groupId);
 
         $response = $this->client->request(Client::METHOD_GET, $url);
+
+        return $this->client->generateResponse($response);
+    }
+
+    /**
+     * Retrieves the embed token for embedding a dashboard
+     *
+     * @param string      $dashboardId The dashboard ID
+     * @param string      $groupId     The group ID of the dashboard
+     * @param null|string $accessLevel The access level used for the dashboard
+     *
+     * @return \Tngnt\PBI\Response
+     */
+    public function getDashboardEmbedToken($dashboardId, $groupId, $accessLevel = 'view')
+    {
+        $url = sprintf(self::GROUP_DASHBOARD_EMBED_URL, $groupId, $dashboardId);
+
+        $body = [
+            'accessLevel' => $accessLevel,
+        ];
+
+        $response = $this->client->request(Client::METHOD_POST, $url, $body);
 
         return $this->client->generateResponse($response);
     }

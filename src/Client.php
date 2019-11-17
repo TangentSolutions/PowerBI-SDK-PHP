@@ -280,12 +280,13 @@ class Client
             'headers' => [
                 "Accept"        => "application/json",
                 "Authorization" => sprintf("Bearer %s", $this->getToken()),
+            	"Content-Type"  => "application/json",
             ]
         ];
 
         // Add body if one was provided.
         if ($body) {
-            $requestOptions = array_merge($requestOptions, ['json' => json_encode($body)]);
+            $requestOptions = array_merge($requestOptions, ['body' => json_encode($body)]);
         }
 
         return $this->httpClient->request($method, $url, $requestOptions);

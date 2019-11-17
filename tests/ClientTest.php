@@ -96,7 +96,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $request = $this->container[0]['request'];
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/testing', $request->getUri());
-        $this->assertEquals('"{\"Foo\":\"Bar\"}"', $request->getBody()->getContents());
+        $this->assertEquals('{"Foo":"Bar"}', $request->getBody()->getContents());
     }
 
     public function testGenerateResponse()
