@@ -7,10 +7,10 @@ use Tngnt\PBI\Client;
 /**
  * Class Report.
  */
-class Report
-{
+class Report {
     const REPORT_URL = "https://api.powerbi.com/v1.0/myorg/reports";
     const GROUP_REPORT_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports";
+    const GROUP_REPORT_DATA_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports/%s";
     const GROUP_REPORT_EMBED_URL = "https://api.powerbi.com/v1.0/myorg/groups/%s/reports/%s/GenerateToken";
     const PAGE_URL = 'https://api.powerbi.com/v1.0/myorg/reports/%s/pages';
     const GROUP_PAGE_URL = 'https://api.powerbi.com/v1.0/myorg/groups/%s/reports/%s/pages';
@@ -27,8 +27,7 @@ class Report
      *
      * @param Client $client The SDK client
      */
-    public function __construct(Client $client)
-    {
+    public function __construct( Client $client ) {
         $this->client = $client;
     }
 
@@ -39,35 +38,44 @@ class Report
      *
      * @return \Tngnt\PBI\Response
      */
-    public function getReports($groupId = null)
-    {
-        $url = $this->getUrlReports($groupId);
+    public function getReports( $groupId = null ) {
+        $url = $this->getUrlReports( $groupId );
 
-        $response = $this->client->request(Client::METHOD_GET, $url);
+        $response = $this->client->request( Client::METHOD_GET, $url );
 
-        return $this->client->generateResponse($response);
+        return $this->client->generateResponse( $response );
+    }
+
+
+    public function getReportData( $groupId, $reportId ) {
+
+        $url = sprintf( self::GROUP_REPORT_DATA_URL, $groupId, $reportId );
+
+        $response = $this->client->request( Client::METHOD_GET, $url );
+
+        return $this->client->generateResponse( $response );
     }
 
     /**
      * Retrieves the embed token for embedding a report
      *
-     * @param string      $reportId    The report ID of the report
-     * @param string      $groupId     The group ID of the report
+     * @param string $reportId The report ID of the report
+     * @param string $groupId The group ID of the report
      * @param null|string $accessLevel The access level used for the report
      *
      * @return \Tngnt\PBI\Response
      */
-    public function getReportEmbedToken($reportId, $groupId, $accessLevel = 'view')
-    {
-        $url = sprintf(self::GROUP_REPORT_EMBED_URL, $groupId, $reportId);
+    public function getReportEmbedToken( $reportId, $groupId, $accessLevel = 'view', $identities = [] ) {
+        $url = sprintf( self::GROUP_REPORT_EMBED_URL, $groupId, $reportId );
 
         $body = [
-            'accessLevel' => $accessLevel,
+          'accessLevel' => $accessLevel,
+          'identities' => $identities
         ];
 
-        $response = $this->client->request(Client::METHOD_POST, $url, $body);
+        $response = $this->client->request( Client::METHOD_POST, $url, $body );
 
-        return $this->client->generateResponse($response);
+        return $this->client->generateResponse( $response );
     }
 
     /**
@@ -77,13 +85,12 @@ class Report
      *
      * @return \Tngnt\PBI\Response
      */
-    public function getPages($reportId, $groupId = null)
-    {
-        $url = $this->getUrlPages($reportId, $groupId);
+    public function getPages( $reportId, $groupId = null ) {
+        $url = $this->getUrlPages( $reportId, $groupId );
 
-        $response = $this->client->request(Client::METHOD_GET, $url);
+        $response = $this->client->request( Client::METHOD_GET, $url );
 
-        return $this->client->generateResponse($response);
+        return $this->client->generateResponse( $response );
     }
 
     /**
@@ -93,10 +100,9 @@ class Report
      *
      * @return string
      */
-    private function getUrlReports($groupId)
-    {
-        if ($groupId) {
-            return sprintf(self::GROUP_REPORT_URL, $groupId);
+    private function getUrlReports( $groupId ) {
+        if ( $groupId ) {
+            return sprintf( self::GROUP_REPORT_URL, $groupId );
         }
 
         return self::REPORT_URL;
@@ -105,17 +111,16 @@ class Report
     /**
      * Helper function to format the request URL
      *
-     * @param string      $reportId id from report
-     * @param string|null $groupId  An optional group ID
+     * @param string $reportId id from report
+     * @param string|null $groupId An optional group ID
      *
      * @return string
      */
-    private function getUrlPages($reportId, $groupId)
-    {
-        if ($groupId) {
-            return sprintf(self::GROUP_PAGE_URL, $groupId, $reportId);
+    private function getUrlPages( $reportId, $groupId ) {
+        if ( $groupId ) {
+            return sprintf( self::GROUP_PAGE_URL, $groupId, $reportId );
         }
 
-        return sprintf(self::PAGE_URL, $reportId);
+        return sprintf( self::PAGE_URL, $reportId );
     }
 }
