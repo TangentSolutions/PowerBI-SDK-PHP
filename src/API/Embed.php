@@ -39,12 +39,12 @@ class Embed
      *
      * @return \Tngnt\PBI\Response
      */
-    public function createEmbedToken(array $data)
+    public function createEmbedToken(array $data,$accessToken)
     {
         $url = $this->getEmbedTokenUrl();
         $headers = [
                 'Accept: application/json',
-                 sprintf('Authorization: Bearer %s', session('access_token')),
+                 sprintf('Authorization: Bearer %s', $accessToken),
             ];
         $response = Curl::to($url)
             ->withData($data)
