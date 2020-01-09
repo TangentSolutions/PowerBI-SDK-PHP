@@ -8,7 +8,7 @@ use Ixudra\Curl\Facades\Curl;
 /**
  * Class Report.
  */
-class Embled
+class Embed
 {
     const GENERATE_TOKEN_URL = 'https://api.powerbi.com/v1.0/myorg/GenerateToken';
 
@@ -39,9 +39,9 @@ class Embled
      *
      * @return \Tngnt\PBI\Response
      */
-    public function createEmbledToken(array $data)
+    public function createEmbedToken(array $data)
     {
-        $url = $this->getEmbledTokenUrl();
+        $url = $this->getEmbedTokenUrl();
         $headers = [
                 'Accept: application/json',
                  sprintf('Authorization: Bearer %s', session('access_token')),
@@ -60,7 +60,7 @@ class Embled
      *
      * @return string
      */
-    private function getEmbledTokenUrl()
+    private function getEmbedTokenUrl()
     {
         return self::GENERATE_TOKEN_URL;
     }
