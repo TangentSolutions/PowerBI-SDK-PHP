@@ -2,11 +2,13 @@
 
 namespace Tngnt\PBI\Model;
 
+use JsonSerializable;
+
 /**
  * Class Table
  * @package Tngnt\PBI\Model
  */
-class Table
+class Table implements JsonSerializable
 {
     /**
      * @var string
@@ -25,6 +27,17 @@ class Table
     public function __construct($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'name' => $this->name,
+            'columns' => $this->columns,
+        ];
     }
 
     /**

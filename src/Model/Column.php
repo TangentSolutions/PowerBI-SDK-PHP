@@ -2,11 +2,13 @@
 
 namespace Tngnt\PBI\Model;
 
+use JsonSerializable;
+
 /**
  * Class Column
  * @package Tngnt\PBI\Model
  */
-class Column
+class Column implements JsonSerializable
 {
     const INT64 = 'Int64';
     const DOUBLE = 'Double';
@@ -33,6 +35,17 @@ class Column
     {
         $this->name = $name;
         $this->dataType = $dataType;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'name' => $this->name,
+            'dataType' => $this->dataType,
+        ];
     }
 
     /**
