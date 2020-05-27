@@ -2,7 +2,9 @@
 
 namespace Tngnt\PBI\Model;
 
-class Dataset
+use JsonSerializable;
+
+class Dataset implements JsonSerializable
 {
     /**
      * @var string
@@ -21,6 +23,17 @@ class Dataset
     public function __construct($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'name' => $this->name,
+            'tables' => $this->tables,
+        ];
     }
 
     /**
